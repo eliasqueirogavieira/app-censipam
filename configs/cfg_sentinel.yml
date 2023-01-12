@@ -1,0 +1,39 @@
+
+CMD_LINE:
+  data_path:
+  model:
+  root_output:
+
+GPT:
+
+  # path to executable
+  app: ~/snap/bin/gpt
+
+  xml_step_1: gpt/sentinel/Sentinel_1_TOPSAR_SipamSAR_Sampling_Chain_1.xml
+  xml_step_2: gpt/sentinel/Sentinel_1_TOPSAR_SipamSAR_Sampling_Chain_2.xml
+
+  xml_step_3: gpt/sentinel/Sentinel_1_TOPSAR_SipamSAR_Sampling_Chain_3_1.xml
+  xml_step_3_a: gpt/sentinel/Sentinel_1_TOPSAR_SipamSAR_Sampling_Chain_3_2_1.xml
+  xml_step_3_b: gpt/sentinel/Sentinel_1_TOPSAR_SipamSAR_Sampling_Chain_3_2_2.xml
+  
+  xml_step_4: gpt/sentinel/Sentinel_1_TOPSAR_SipamSAR_Sampling_Chain_3_2_3.xml
+
+IN_DATA:
+  format: sentinel
+  folder: /censipam_data/Datasets/iceye_data/data_design/conjunto_4
+
+MODEL:
+  config: configs/unet.yml  #cfg_unet
+   
+
+OUTPUT:
+  serial_file: sentinel_obj
+  save_partial_results: True
+  threshold: 0.45
+  apply_opening: True
+  keep_pred_tif: True
+
+
+
+
+

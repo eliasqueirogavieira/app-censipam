@@ -1,0 +1,16 @@
+
+name          : sfnet
+class         : SFNet                                          
+backbone      : ResNetD-18                                     
+#checkpoint    : /censipam_data/renam/temp_TRAIN/default/sfnet/SFNet_ResNetD-18_Censipam.pth
+checkpoint    : models/sfnet/saved_models/SFNet_ResNetD-18_Censipam.pth
+
+obj_list: ['background', 'deforestation']
+
+device        : cpu   # cpu, cuda, cuda0, cuda1
+batch_size    : 8     # amount of image to process at a time
+patch_size    : 512   # used to filter prediction, default 0.5. Large value reduces false positive
+
+threshold     : 0.5   # used to filter prediction, default 0.5. Large value reduces false positive
+
+

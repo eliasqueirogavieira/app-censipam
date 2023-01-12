@@ -1,0 +1,18 @@
+
+name: efficient_det
+checkpoint: models/edet/checkpoints/efficientdet-d0_499_125000.pth
+
+compound_coef: 0
+obj_list: ['deforestation']
+nb_in_channels: 3
+
+use_cuda: False
+use_float16: False
+
+threshold_score: 0.5
+nms_threshold: 0.05  # non-maximal supression
+
+batch_size: 32
+
+anchors_scales: '[2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)]'
+anchors_ratios: '[(0.7, 1.4), (1.0, 1.0), (1.5, 0.7)]'

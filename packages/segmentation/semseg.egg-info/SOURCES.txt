@@ -1,0 +1,14 @@
+LICENSE
+README.md
+setup.py
+semseg/__init__.py
+semseg/augmentations.py
+semseg/losses.py
+semseg/metrics.py
+semseg/optimizers.py
+semseg/schedulers.py
+semseg.egg-info/PKG-INFO
+semseg.egg-info/SOURCES.txt
+semseg.egg-info/dependency_links.txt
+semseg.egg-info/requires.txt
+semseg.egg-info/top_level.txt

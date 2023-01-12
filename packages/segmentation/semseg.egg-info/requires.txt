@@ -1,0 +1,9 @@
+tqdm
+tabulate
+numpy
+scipy
+matplotlib
+tensorboard
+fvcore
+einops
+rich

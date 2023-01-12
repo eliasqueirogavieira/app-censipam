@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: semseg
+Version: 0.4.1
+Summary: SOTA Semantic Segmentation Models
+Home-page: https://github.com/sithu31296/semantic-segmentation
+Author: Sithu Aung
+Author-email: sithu31296@gmail.com
+License: MIT
+License-File: LICENSE

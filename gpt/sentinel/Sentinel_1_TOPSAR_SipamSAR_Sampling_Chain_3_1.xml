@@ -1,0 +1,105 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>${in1}</file>
+      <copyMetadata>true</copyMetadata>
+      <pixelRegion>0,0,21170,13410</pixelRegion>
+    </parameters>
+  </node>
+  <node id="Read(2)">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>${in2}</file>
+      <copyMetadata>true</copyMetadata>
+      <pixelRegion>0,0,25059,13509</pixelRegion>
+    </parameters>
+  </node>
+  <node id="Read(3)">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>${in3}</file>
+      <copyMetadata>true</copyMetadata>
+      <pixelRegion>0,0,24171,13545</pixelRegion>
+    </parameters>
+  </node>
+  <node id="TOPSAR-Deburst">
+    <operator>TOPSAR-Deburst</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <selectedPolarisations/>
+    </parameters>
+  </node>
+  <node id="TOPSAR-Deburst(2)">
+    <operator>TOPSAR-Deburst</operator>
+    <sources>
+      <sourceProduct refid="Read(2)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <selectedPolarisations/>
+    </parameters>
+  </node>
+  <node id="TOPSAR-Deburst(3)">
+    <operator>TOPSAR-Deburst</operator>
+    <sources>
+      <sourceProduct refid="Read(3)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <selectedPolarisations/>
+    </parameters>
+  </node>
+  <node id="TOPSAR-Merge(2)">
+    <operator>TOPSAR-Merge</operator>
+    <sources>
+      <sourceProduct refid="TOPSAR-Deburst"/>
+      <sourceProduct.1 refid="TOPSAR-Deburst(2)"/>
+      <sourceProduct.2 refid="TOPSAR-Deburst(3)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <selectedPolarisations/>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="TOPSAR-Merge(2)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>${out}</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="144.0" y="52.0"/>
+    </node>
+    <node id="Read(2)">
+      <displayPosition x="151.0" y="103.0"/>
+    </node>
+    <node id="Read(3)">
+      <displayPosition x="152.0" y="160.0"/>
+    </node>
+    <node id="TOPSAR-Deburst">
+      <displayPosition x="310.0" y="55.0"/>
+    </node>
+    <node id="TOPSAR-Deburst(2)">
+      <displayPosition x="308.0" y="104.0"/>
+    </node>
+    <node id="TOPSAR-Deburst(3)">
+      <displayPosition x="307.0" y="158.0"/>
+    </node>
+    <node id="TOPSAR-Merge(2)">
+      <displayPosition x="661.0" y="108.0"/>
+    </node>
+    <node id="Write">
+      <displayPosition x="916.0" y="109.0"/>
+    </node>
+  </applicationData>
+</graph>

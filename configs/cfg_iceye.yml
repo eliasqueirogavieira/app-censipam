@@ -1,0 +1,25 @@
+
+CMD_LINE:
+  data_path:
+  model: 
+  root_output:
+  
+GPT:
+  app: ~/snap/bin/gpt
+  xml_file_gpt_h5_preprocess: gpt/iceye/gpt_nofilter.xml
+  xml_file_gpt_stack: gpt/iceye/gpt_stack.xml
+  model: teste
+
+IN_DATA:
+  format: iceye
+  folder: /censipam_data/Datasets/iceye_data/data_design/conjunto_4
+
+MODEL:
+  config: configs/sfnet.yml
+
+  
+OUTPUT:
+  serial_file: iceye_obj
+
+
+
