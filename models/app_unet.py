@@ -25,6 +25,7 @@ from .unet import model
 from pathlib import Path
 from qgis.core import *
 from qgis.PyQt.QtCore import QVariant
+from osgeo import ogr, osr
 
 def initialize_qgis():
     QgsApplication.setPrefixPath('/home/eliasqueiroga/anaconda3/envs/appcensipam', True)
@@ -32,21 +33,31 @@ def initialize_qgis():
     qgs.initQgis()
     print("Success! QGIS Initialized")
 
-def add_area_attr(shapefile_path, shapefile_name, attr_name):
-    eligibleLayer = QgsVectorLayer(shapefile_path, shapefile_name, "ogr")
-    if not eligibleLayer.isValid():
-        print("Eligible areas layer failed to load!")
-    lProvider = eligibleLayer.dataProvider()
-    lProvider.addAttributes( [ QgsField(attr_name, QVariant.Double) ] )
-    calculator = QgsDistanceArea()
-    calculator.setEllipsoid('WGS84')
-    #area = 0
-    with edit(eligibleLayer):
-        for gFeat in eligibleLayer.getFeatures():
-            # Calculate area in m2, convert to km2, save to file
-            gFeat[attr_name] = calculator.measureArea(gFeat.geometry())/1e6
-            eligibleLayer.updateFeature(gFeat)
-    return gFeat
+def add_area_attr(shapefile_path, attr_name):
+    dataSource = ogr.GetDriverByName("ESRI Shapefile").Open(shapefile_path, 1)
+    layer = dataSource.GetLayer()
+    if layer.GetLayerDefn().GetFieldIndex(attr_name)==-1:
+        new_field = ogr.FieldDefn(attr_name, ogr.OFTReal)
+        layer.CreateField(new_field)
+
+    using_latlong = layer.GetSpatialRef().EPSGTreatsAsLatLong()
+    if using_latlong:
+        tgt_srs = osr.SpatialReference()
+        tgt_srs.ImportFromEPSG(3857)
+        transform = osr.CoordinateTransformation(layer.GetSpatialRef(), tgt_srs)
+
+    for feature in layer:
+        geom = feature.GetGeometryRef()
+        if hasattr(geom,'GetArea'):
+            if using_latlong:
+                geom2 = geom.Clone()
+                geom2.Transform(transform)
+                area = geom2.GetArea()/1e6
+            else:
+                area = geom.GetArea()/1e6
+            feature.SetField(attr_name, area)
+            layer.SetFeature(feature)
+    return area, feature
 
 class ModelUNet(NNModel):
     def __init__(self, config) -> None:
@@ -317,8 +328,23 @@ class ModelUNet(NNModel):
             pass
         self.__save_PredToShpfile(out_folder / "pred.tif", diff_pred)
         df = geopandas.read_file(out_folder / "pred.shp")
+        date_list = []
+        for i in range(len(df['geometry'])): 
+            date_list.append(str(date))
+        df['date'] = date_list
+        df_copy = df.copy()
+        df_copy = df_copy.to_crs({'proj':'cea'})
+        df['poly_area'] = df_copy['geometry'].area/ 10**6
+        area_total = 0
+        for index in range(len(df['poly_area'])): 
+            area_total += df['poly_area'][index]
+        area_total_list = []
+        for i in range(len(df['geometry'])): 
+            area_total_list.append(area_total)
+        df['total_area'] = area_total_list
+        df.to_file(str(out_folder / 'pred.shp'))
         #initialize_qgis()
-        #area = add_area_attr('teste.shp', 'teste', 'Area_km2')
+        #area, feature = add_area_attr(str(out_folder / 'pred.shp'), 'Area_km2')
         #qgs.exitQgis()
         if self.config.OUTPUT.save_partial_results:
             self.__save_PredToShpfile(out_folder / 'pred_before.tif', self.__toBinary(preds_before))
