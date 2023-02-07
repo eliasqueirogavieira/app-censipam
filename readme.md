@@ -1,7 +1,7 @@
 
 # App Censipam
 
-This project provides a Python environment that downloads SAR images (Sentinel-1 satellite) through zip files, pre-process it using SNAP, post-process it using SAR enhancing techniques and then feed it to a pre-trained CNN ([U-Net](https://github.com/eliasqueirogavieira/unet-sentinel) implemented) to detect newer deforestation in a georeferenced (CRS - WGS84) TIFF images.
+This project provides a Python environment that downloads SAR images (Sentinel-1 satellite) through zip files, pre-process it using SNAP, post-process it using SAR enhancing techniques and then feed it to a pre-trained CNN ([U-Net](https://github.com/eliasqueirogavieira/unet-sentinel) implemented here) to detect newer deforestation in a georeferenced (CRS - WGS84) TIFF images.
 
 This application performs the task of classifying the same region on different dates, usually separated by months, then performs the difference between the two and saves the output in a shapefile (.shp), using the same CRS as the original TIFF image, so it is compatible with QGIS, PostGIS, ArcGIS, etc.
 
